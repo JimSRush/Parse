@@ -114,7 +114,7 @@ func filterOutCertainStreets(rawFile [][]string) [][]string {
 	streetIndex := 1
 	var propertyList [][]string
 	for _, property := range rawFile {
-		if !(strings.Contains(property[streetIndex], "AVE") || strings.Contains(property[streetIndex], " CRES") || strings.Contains(property[streetIndex], " PL ")) {
+		if !strings.Contains(property[streetIndex], "AVE") && !strings.Contains(property[streetIndex], "CRES") && !strings.Contains(property[streetIndex], "PL") {
 			propertyList = append(propertyList, property)
 		}
 	}
