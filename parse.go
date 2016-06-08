@@ -32,7 +32,8 @@ func main() {
 	//testOne(rawFile)
 	//testTwo(rawFile)
 	//testThree(rawFile)
-	prettyPrintList(filterByCheapProperties(rawFile))
+	//prettyPrintList(filterByCheapProperties(rawFile))
+	prettyPrintList(filterOutCertainStreets(rawFile))
 }
 
 /*In the case of duplicates, use the last encountered record.*/
@@ -109,8 +110,24 @@ func filterByCheapProperties(rawFile [][]string) [][]string {
 
 	return propertyList
 }
-func filterOutCertainStreets() {}
-func filterOneInTen()          {}
+func filterOutCertainStreets(rawFile [][]string) [][]string {
+	streetIndex := 1
+	var propertyList [][]string
+	for _, property := range rawFile {
+		if strings.Contains(property[streetIndex], "AVE") || strings.Contains(property[streetIndex], " CRES") || strings.Contains(property[streetIndex], " PL ") {
+			fmt.Println("Found a fancy street: ", property)
+
+		}
+		//check substring for AVE, CRES, PL -- ignore case
+
+	}
+	return propertyList
+}
+
+func filterOneInTen(rawFile [][]string) [][]string {
+
+	return rawFile
+}
 
 // Test #4
 // Modify the codebase to run the following filters:
