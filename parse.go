@@ -28,10 +28,10 @@ func main() {
 		fmt.Println(e)
 		return
 	}
-	println(len(rawFile))
-	//testOne(rawFile)
-	//testTwo(rawFile)
-	//testThree(rawFile)
+
+	testOne(rawFile)
+	testTwo(rawFile)
+	testThree(rawFile)
 	prettyPrintList(filterByCheapProperties(rawFile))
 	prettyPrintList(filterOutCertainStreets(rawFile))
 	prettyPrintList(filterOneInTen(rawFile))
@@ -63,9 +63,6 @@ func testTwo(rawFile [][]string) {
 			m[key] = rawFile[i]
 		}
 	}
-
-	fmt.Println("Test two")
-
 }
 
 /*Instead of inserting the last record, make sure that no duplicates are entered at all. */
@@ -138,15 +135,17 @@ func prettyPrintMap(m map[MyKey][]string) {
 	}
 }
 
+/*Helper function to make a list print out nicely*/
 func prettyPrintList(rawFile [][]string) {
 	for _, element := range rawFile {
 		for index := range element {
 			fmt.Print(element[index], " ")
 		}
-		fmt.Println("")
+		fmt.Println("") //hack, sorry
 	}
 }
 
+/*The bulk of the parsing logic is here, and returns a slice where each element is a split line (a new slice)*/
 func readFileIntoArray(filename string) ([][]string, error) {
 	file, e := os.Open(filename)
 
@@ -161,7 +160,7 @@ func readFileIntoArray(filename string) ([][]string, error) {
 	scanner := bufio.NewScanner(file)
 	scanner.Split(bufio.ScanLines)
 	for scanner.Scan() {
-		if scanner.Text() != "" { //Gotta check for empty lines.
+		if scanner.Text() != "" { //Gotta check for empty lines, otherwise it'll break
 			line := strings.Split(scanner.Text(), "\t")
 			lines = append(lines, line)
 		}
