@@ -28,8 +28,8 @@ func main() {
 		return
 	}
 	println(len(rawFile))
-	testOne(rawFile)
-	testTwo(rawFile)
+	//testOne(rawFile)
+	//testTwo(rawFile)
 	testThree(rawFile)
 }
 
@@ -46,6 +46,7 @@ func testOne(rawFile [][]string) {
 	for _, value := range m {
 		fmt.Println(value)
 	}
+	fmt.Println(len(m))
 }
 
 /*Modify the code in case of duplicates to use the first encountered record.*/
@@ -63,14 +64,34 @@ func testTwo(rawFile [][]string) {
 	}
 
 	fmt.Println("Test two")
+
 }
 
 /*Instead of inserting the last record, make sure that no duplicates are entered at all. */
 func testThree(rawFile [][]string) {
 
-	//look here http://www.dotnetperls.com/duplicates-go
-	//fmt.Println(rawFile)
-	//fmt.Println("test three")
+	toRemove := make(map[MyKey][]string)   //the collection of duplicates to remove
+	sliceAsMap := make(map[MyKey][]string) //the collection to return
+
+	for i := range rawFile {
+		key := extractAddressAndDate((rawFile[i]))
+		//if it already exists, add ot to the toRemove map
+		_, ok := sliceAsMap[key]
+		if !ok { //if it's not there, add it
+			sliceAsMap[key] = rawFile[i]
+		} else {
+			toRemove[key] = rawFile[i]
+			sliceAsMap[key] = rawFile[i]
+		}
+	}
+
+	for key := range sliceAsMap {
+		_, ok := toRemove[key]
+		if ok {
+			delete(sliceAsMap, key)
+		}
+	}
+	fmt.Println(sliceAsMap)
 }
 
 func filterByCheapProperties() {}
