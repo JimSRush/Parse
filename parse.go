@@ -4,6 +4,7 @@ import (
 	"bufio"
 	"fmt"
 	"os"
+	"strconv"
 	"strings"
 )
 
@@ -30,7 +31,8 @@ func main() {
 	println(len(rawFile))
 	//testOne(rawFile)
 	//testTwo(rawFile)
-	testThree(rawFile)
+	//testThree(rawFile)
+	prettyPrintList(filterByCheapProperties(rawFile))
 }
 
 /*In the case of duplicates, use the last encountered record.*/
@@ -42,11 +44,8 @@ func testOne(rawFile [][]string) {
 		key := extractAddressAndDate(rawFile[i])
 		m[key] = rawFile[i]
 	}
-	//It says to print the list, but this looks the same.
-	for _, value := range m {
-		fmt.Println(value)
-	}
-	fmt.Println(len(m))
+
+	prettyPrintMap(m)
 }
 
 /*Modify the code in case of duplicates to use the first encountered record.*/
@@ -91,10 +90,25 @@ func testThree(rawFile [][]string) {
 			delete(sliceAsMap, key)
 		}
 	}
-	fmt.Println(sliceAsMap)
+	prettyPrintMap(sliceAsMap)
 }
 
-func filterByCheapProperties() {}
+func filterByCheapProperties(rawFile [][]string) [][]string {
+	threshold := 400000
+	valueIndex := 4
+
+	//var lines [][]string
+	var propertyList [][]string
+	for _, property := range rawFile {
+		propertyValue, _ := strconv.Atoi(property[valueIndex])
+
+		if propertyValue > threshold {
+			propertyList = append(propertyList, property)
+		}
+	}
+
+	return propertyList
+}
 func filterOutCertainStreets() {}
 func filterOneInTen()          {}
 
@@ -103,6 +117,20 @@ func filterOneInTen()          {}
 // Filter out cheap properties (anything under 400k)
 // Filter out properties that are avenues, crescents, or places (AVE, CRES, PL) cos those guys are just pretentious...
 // Filter out every 10th property (to keep our users on their toes!)
+
+/*Helper function to make a map print out nicely*/
+func prettyPrintMap(m map[MyKey][]string) {
+	for _, value := range m {
+		fmt.Println(value)
+	}
+}
+
+func prettyPrintList(rawFile [][]string) {
+	for _, element := range rawFile {
+		fmt.Println(element)
+	}
+
+}
 
 func readFileIntoArray(filename string) ([][]string, error) {
 	file, e := os.Open(filename)
