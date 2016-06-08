@@ -33,7 +33,8 @@ func main() {
 	//testTwo(rawFile)
 	//testThree(rawFile)
 	//prettyPrintList(filterByCheapProperties(rawFile))
-	prettyPrintList(filterOutCertainStreets(rawFile))
+	//prettyPrintList(filterOutCertainStreets(rawFile))
+	prettyPrintList(filterOneInTen(rawFile))
 }
 
 /*In the case of duplicates, use the last encountered record.*/
@@ -122,15 +123,16 @@ func filterOutCertainStreets(rawFile [][]string) [][]string {
 }
 
 func filterOneInTen(rawFile [][]string) [][]string {
-
-	return rawFile
+	var propertyList [][]string
+	for index, property := range rawFile {
+		if !(index%10 == 0) {
+			propertyList = append(propertyList, property)
+		} else {
+			fmt.Println(index)
+		}
+	}
+	return propertyList
 }
-
-// Test #4
-// Modify the codebase to run the following filters:
-// Filter out cheap properties (anything under 400k)
-// Filter out properties that are avenues, crescents, or places (AVE, CRES, PL) cos those guys are just pretentious...
-// Filter out every 10th property (to keep our users on their toes!)
 
 /*Helper function to make a map print out nicely*/
 func prettyPrintMap(m map[MyKey][]string) {
