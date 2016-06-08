@@ -32,8 +32,8 @@ func main() {
 	//testOne(rawFile)
 	//testTwo(rawFile)
 	//testThree(rawFile)
-	//prettyPrintList(filterByCheapProperties(rawFile))
-	//prettyPrintList(filterOutCertainStreets(rawFile))
+	prettyPrintList(filterByCheapProperties(rawFile))
+	prettyPrintList(filterOutCertainStreets(rawFile))
 	prettyPrintList(filterOneInTen(rawFile))
 }
 
@@ -99,7 +99,6 @@ func filterByCheapProperties(rawFile [][]string) [][]string {
 	threshold := 400000
 	valueIndex := 4
 
-	//var lines [][]string
 	var propertyList [][]string
 	for _, property := range rawFile {
 		propertyValue, _ := strconv.Atoi(property[valueIndex])
@@ -127,8 +126,6 @@ func filterOneInTen(rawFile [][]string) [][]string {
 	for index, property := range rawFile {
 		if !(index%10 == 0) {
 			propertyList = append(propertyList, property)
-		} else {
-			fmt.Println(index)
 		}
 	}
 	return propertyList
@@ -143,9 +140,11 @@ func prettyPrintMap(m map[MyKey][]string) {
 
 func prettyPrintList(rawFile [][]string) {
 	for _, element := range rawFile {
-		fmt.Println(element)
+		for index := range element {
+			fmt.Print(element[index], " ")
+		}
+		fmt.Println("")
 	}
-
 }
 
 func readFileIntoArray(filename string) ([][]string, error) {
